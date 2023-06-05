@@ -1,3 +1,5 @@
 node_modules/
 test.json
 groupApi.rar
+download/image/*
+!download/image/
