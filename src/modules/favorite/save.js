@@ -4,6 +4,7 @@ import path from 'path';
 import { dateformat, cleanObj } from '../../utils/index.js';
 import select from '../../db/query.js';
 import md5 from 'md5';
+import tunnel from 'tunnel';
 
 const __dirname = path.resolve();
 const downloadImg = async (href = '', origin = '') => {
@@ -23,6 +24,8 @@ const downloadImg = async (href = '', origin = '') => {
     }
     const target_path = path.resolve(__dirname, uploadPath);
     const response = await axios.get(href, {
+        httpAgent: tunnel.httpOverHttp({ proxy: { host: '127.0.0.1', port: '10809' } }),
+        httpsAgent: tunnel.httpsOverHttp({ proxy: { host: '127.0.0.1', port: '10809' } }),
         responseType: 'stream', headers: {
             referer: origin
         }

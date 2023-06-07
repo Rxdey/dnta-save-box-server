@@ -22,9 +22,18 @@ const downloadImg = async (href = '', origin = '') => {
         }
     }
     const target_path = path.resolve(__dirname, uploadPath);
-    const response = await axios.get(href, { responseType: 'stream', headers: {
-        referer: origin
-    } });
+    const response = await axios.get(href, {
+        // httpAgent: tunnel.httpOverHttp({ proxy: { host: '127.0.0.1', port: '10809' } }),
+        // httpsAgent: tunnel.httpsOverHttp({ proxy: { host: '127.0.0.1', port: '10809' } }),
+        proxy: {
+            host: '127.0.0.1',
+            port: '10809',
+            protocol: 'https'
+        },
+        responseType: 'stream', headers: {
+            referer: origin
+        }
+    });
     const headers = response.headers;
     const contentType = headers['content-type'];
     const imgType = contentType.split('/')[1];

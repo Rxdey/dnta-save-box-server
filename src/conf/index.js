@@ -16,6 +16,6 @@ export const DB_CONFIG = {
     // 密码
     password: 'root',
     // 数据库名
-    database: 'world_pack',
+    database: 'dnta',
     timezone: '08:00'
 };
