@@ -31,7 +31,7 @@ app.use((req, res, next) => {
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 // app.use(cache('15 minutes', ((req, res) => res.statusCode === 200 || res.statusCode === 304)));
-app.use(express.static(path.join(__dirname, 'static')));
+app.use(express.static(path.join(__dirname, 'download')));
 
 app.use(expressjwt({
     secret,  // 签名的密钥 或 PublicKey
