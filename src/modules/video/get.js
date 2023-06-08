@@ -28,6 +28,7 @@ const getAllFile = (baseDir, currentDir = '', list = []) => {
 
 const getVideos = async ({ query, auth }, { sendErrorResponse, sendSuccessResponse }) => {
     // const { id: uid } = auth;
+    if (!query.nsfw) return sendSuccessResponse({ data: [] })
     const dir = path.resolve(__dirname, './download/video');
     const res = getAllFile(dir, '', []).map((item, i) => ({
         content: item,
