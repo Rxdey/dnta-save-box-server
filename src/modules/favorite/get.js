@@ -3,13 +3,13 @@ import select from '../../db/query.js';
 
 const getAllFavorite = async ({ query, auth }, { sendErrorResponse, sendSuccessResponse }) => {
     const { id: uid } = auth;
-    const { page = 1, pageSize = 50, tid = null } = query;
+    const { page = 1, pageSize = 50, tid = null, is_show = 1 } = query;
 
     // 分页查询
     const start = (parseInt(page) - 1) * parseInt(pageSize);
     const end = ((parseInt(page) - 1) * parseInt(pageSize)) + parseInt(pageSize);
     try {
-        const where = { uid, is_show: 1 };
+        const where = { uid, is_show };
         if (tid) where['tid'] = tid;
         const totle = await select.count({
             database: 'favorite',
