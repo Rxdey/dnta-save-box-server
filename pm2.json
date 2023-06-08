@@ -2,6 +2,6 @@
     "apps": {
       "name": "dnta-save-vox-server",
       "script": "app.js",
-      "cwd": "F:\\DNTA\\dnta-save-box-server"
+      "cwd": "./"
     }
 }
