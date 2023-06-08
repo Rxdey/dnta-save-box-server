@@ -1,5 +1,6 @@
 import path from 'path';
 import fs from 'fs';
+import { dateformat } from '../../utils/index.js';
 
 const __dirname = path.resolve();
 
@@ -28,7 +29,19 @@ const getAllFile = (baseDir, currentDir = '', list = []) => {
 const getVideos = async ({ query, auth }, { sendErrorResponse, sendSuccessResponse }) => {
     // const { id: uid } = auth;
     const dir = path.resolve(__dirname, './download/video');
-    const res = getAllFile(dir, '', []);
+    const res = getAllFile(dir, '', []).map((item, i) => ({
+        content: item,
+        create_date: dateformat(),
+        id: i,
+        is_show: 1,
+        origin: "http://192.168.101.2:7888",
+        path: `./download/video/${item}`,
+        preview_img: null,
+        title: item,
+        type: "video",
+        uid: 1,
+        update_date: dateformat(),
+    }));
     return sendSuccessResponse({ data: res });
 };
 
