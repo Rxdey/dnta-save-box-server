@@ -7,7 +7,7 @@ const del = async ({ body, auth }, { sendErrorResponse, sendSuccessResponse }) =
     if (!id) return sendErrorResponse({ msg: '参数错误' });
     try {
         // 删除标签
-        const record = await select.del({
+        const record = await select.delete({
             database: 'tag',
             where: {
                 uid,
@@ -17,7 +17,7 @@ const del = async ({ body, auth }, { sendErrorResponse, sendSuccessResponse }) =
         // 清空对应收藏的tid
         await select.update({
             database: 'favorite',
-            set: { tid: '' },
+            set: { tid: 0 },
             where: { tid: id }
         });
         return sendSuccessResponse({ data: record, msg: '删除成功' });
