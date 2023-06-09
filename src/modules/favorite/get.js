@@ -3,13 +3,13 @@ import select from '../../db/query.js';
 
 const getAllFavorite = async ({ query, auth }, { sendErrorResponse, sendSuccessResponse }) => {
     const { id: uid } = auth;
-    const { page = 1, pageSize = 50, tid = null, is_show = 1, nsfw = 0 } = query;
+    const { page = 1, pageSize = 50, tid = null, is_show = 1, nsfw = 0, type, order = 'DESC' } = query;
 
     // 分页查询
     const start = (parseInt(page) - 1) * parseInt(pageSize);
     const end = ((parseInt(page) - 1) * parseInt(pageSize)) + parseInt(pageSize);
     try {
-        const where = cleanObj({ uid, is_show, tid, nsfw });
+        const where = cleanObj({ uid, is_show, tid, nsfw, type });
         const totle = await select.count({
             database: 'favorite',
             where
@@ -22,7 +22,7 @@ const getAllFavorite = async ({ query, auth }, { sendErrorResponse, sendSuccessR
                 start,
                 end
             },
-            order: { type: 'DESC', key: 'create_date' }
+            order: { type: order, key: 'create_date' }
         });
         return sendSuccessResponse({ data: { list: record, totle, page, pageSize } });
     } catch (error) {
