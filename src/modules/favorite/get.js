@@ -11,7 +11,7 @@ const getAllFavorite = async ({ query, auth }, { sendErrorResponse, sendSuccessR
     const end = ((parseInt(page) - 1) * parseInt(pageSize)) + parseInt(pageSize);
     try {
         const where = cleanObj({ uid, is_show, tid, nsfw, type });
-        if (nsfw) delete where.nsfw;
+        if (nsfw == 1) delete where.nsfw;
         const totle = await select.count({
             database: 'favorite',
             where

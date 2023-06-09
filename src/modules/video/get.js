@@ -28,7 +28,7 @@ const getVideos = async ({ query, auth }, { sendErrorResponse, sendSuccessRespon
         uid: 1,
         update_date: dateformat(),
     }));
-    return sendSuccessResponse({ data: { list: res } });
+    return sendSuccessResponse({ data: { list: res.reverse() } });
 };
 
 export default getVideos;
