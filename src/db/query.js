@@ -8,6 +8,19 @@ const parseWhereObject = (where = {}) => Object.keys(where).reduce((prve, curren
   return prve;
 }, '');
 
+const orderObject = (order = {}) => `${order.key} ${order.type}`;
+
+const parseOrder = (order = {}) => {
+  if (Array.isArray(order)) {
+    return order.reduce((p, n) => {
+      p += p ? `, ${orderObject(n)}` : orderObject(n);
+      return p;
+    }, '');
+  } else {
+    return orderObject(order);
+  }
+}
+
 select.count = ({
   field = '*',
   database = 'manhua_user',
@@ -39,12 +52,13 @@ select.find = ({
   order = { type: 'ASC', key: 'id' }
 }) => {
   const condition = parseWhereObject(where);
-  const sql = `select ${field} from ${database} where ${condition} ORDER BY ${order.key} ${order.type}${limit.end ? ` LIMIT ${limit.start},${limit.end}` : ''}`;
+  const orderStr = parseOrder(order);
+  const sql = `select ${field} from ${database} where ${condition}ORDER BY ${orderStr}${limit.end ? ` LIMIT ${limit.start},${limit.end}` : ''}`;
   console.log(colors.bgMagenta(sql));
   return new Promise((resolve, reject) => {
     db.query(sql, (error, results, fields) => {
       if (error) {
-        reject(false);
+        reject(error);
         return;
       }
       resolve(results);

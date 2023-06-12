@@ -24,7 +24,10 @@ const getAllFavorite = async ({ query, auth }, { sendErrorResponse, sendSuccessR
                 start,
                 end
             },
-            order: { type: sort, key: 'create_date' }
+            order: [
+                { type: 'DESC', key: '`sort`'},
+                { type: sort === 'ASC' ? 'ASC' : 'DESC', key: 'create_date' }
+            ]
         });
         return sendSuccessResponse({ data: { list: record, totle, page, pageSize } });
     } catch (error) {
