@@ -64,6 +64,20 @@ const save = async ({ body, auth }, { sendErrorResponse, sendSuccessResponse }) 
                 database: 'favorite',
                 set: setData
             });
+            const count = await select.count({
+                field: 'id',
+                database: 'favorite',
+            });
+            await select.update({
+                database: 'favorite',
+                set: {
+                    sort: count * 200
+                },
+                where: {
+                    uid,
+                    id: res
+                },
+            });
             return sendSuccessResponse({ msg: '已添加', data: res });
         } catch (error) {
             console.log(error);
