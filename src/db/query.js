@@ -19,7 +19,7 @@ const parseOrder = (order = {}) => {
   } else {
     return orderObject(order);
   }
-}
+};
 
 select.count = ({
   field = '*',
@@ -155,4 +155,19 @@ select.delete = ({
 
 };
 
+select.querySql = (sql = '') => {
+  return new Promise((resolve, reject) => {
+    if (!sql) {
+      reject(false);
+      return;
+    }
+    db.query(sql, function (err, results) {
+      if (err) {
+        reject(err);
+        return;
+      }
+      resolve(results);
+    });
+  });
+};
 export default select;

@@ -67,6 +67,9 @@ const save = async ({ body, auth }, { sendErrorResponse, sendSuccessResponse }) 
             const count = await select.count({
                 field: 'id',
                 database: 'favorite',
+                where: {
+                    uid
+                }
             });
             console.log(count);
             await select.update({
