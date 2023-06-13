@@ -24,15 +24,15 @@ const parseOrder = (order = {}) => {
 select.count = ({
   field = '*',
   database = 'manhua_user',
-  where = {}
+  where = null
 }) => {
-  const condition = parseWhereObject(where);
-  const sql = `select count(${field}) from ${database} where ${condition}`;
+  const condition = where ? parseWhereObject(where) : null;
+  const sql = `select count(${field}) from ${database}${condition ? ` where ${condition}` : ''}`;
   console.log(colors.bgMagenta(sql));
   return new Promise((resolve, reject) => {
     db.query(sql, (error, results, fields) => {
       if (error) {
-        reject(false);
+        reject(error);
         return;
       }
       const counts = JSON.parse(JSON.stringify(results[0]));

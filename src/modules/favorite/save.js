@@ -68,6 +68,7 @@ const save = async ({ body, auth }, { sendErrorResponse, sendSuccessResponse }) 
                 field: 'id',
                 database: 'favorite',
             });
+            console.log(count);
             await select.update({
                 database: 'favorite',
                 set: {
