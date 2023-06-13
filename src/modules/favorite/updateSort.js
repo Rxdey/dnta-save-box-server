@@ -12,7 +12,7 @@ const updateSort = async ({ body, auth }, { sendErrorResponse, sendSuccessRespon
 
     try {
         const initSql = 'SET @row_number := 0;';
-        const updateSql = `UPDATE favorite SET sort = (@row_number := @row_number + 1) * 200 WHERE uid = ${uid} ORDER BY sort DESC, create_date DESC;`;
+        const updateSql = `UPDATE favorite SET sort = (@row_number := @row_number + 1) * 100 WHERE uid = ${uid} ORDER BY sort DESC;`;
         await select.querySql(initSql);
         const record = await select.querySql(updateSql);
         return sendSuccessResponse({ data: record, msg: '更新成功' });
