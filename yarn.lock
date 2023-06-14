@@ -1187,7 +1187,7 @@ unpipe@1.0.0, unpipe@~1.0.0:
 
 urlencode@^1.1.0:
   version "1.1.0"
-  resolved "https://registry.npmmirror.com/urlencode/-/urlencode-1.1.0.tgz#1f2ba26f013c85f0133f7a3ad6ff2730adf7cbb7"
+  resolved "https://registry.yarnpkg.com/urlencode/-/urlencode-1.1.0.tgz#1f2ba26f013c85f0133f7a3ad6ff2730adf7cbb7"
   integrity sha512-OOAOh9owHXr/rCN1tteSnYwIvsrGHamSz0hafMhmQa7RcS4+Ets6/2iVClVGjt9jkDW84UqoMw/Gmpc7QolX6A==
   dependencies:
     iconv-lite "~0.4.11"

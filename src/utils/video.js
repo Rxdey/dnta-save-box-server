@@ -1,8 +1,15 @@
 import ffmpeg from 'fluent-ffmpeg';
 import fs from 'fs';
 import path from 'path';
+// import urlencode from 'urlencode';
 
 const __dirname = path.resolve();
+
+const ffmpegPath = path.join(__dirname, '../ffmpeg/bin/ffmpeg.exe');
+const ffprobePath = path.join(__dirname, '../ffmpeg/bin/ffprobe.exe');
+
+ffmpeg.setFfmpegPath(ffmpegPath);
+ffmpeg.setFfprobePath(ffprobePath);
 
 export const source = './download/video/source';
 export const output = './download/video/result';
@@ -48,8 +55,9 @@ export const getAllFile = (baseDir, currentDir = '', list = []) => {
 export function batchExtractVideoCovers({
   inputPaths, outputDir, time = '0'
 }) {
-  inputPaths.forEach((inputPath) => {
-    const name = getFileNameWithoutExtension(inputPath);
+  inputPaths.forEach((inputPath, i) => {
+    // const name = getFileNameWithoutExtension(inputPath);
+    const name = `${new Date().getTime()}_${i}`;
     const outPath = path.resolve(__dirname, `${outputDir}/${name}`);
     createDirectoryIfNotExists(outPath);
     // const outputPath = `${outputDir}/cover_${Date.now()}.jpg`;
@@ -63,11 +71,12 @@ export function batchExtractVideoCovers({
       })
       .on('end', () => {
         console.log(`视频 ${inputPath} 的封面已截取至 ${outputPath}`);
-        moveFile(path.join(__dirname, inputPath), `${outPath}/${path.basename(inputPath)}`);
+        moveFile(path.join(__dirname, inputPath), `${outPath}/${name}.${inputPath.split('.')[inputPath.split('.').length - 1]}`);
+        // moveFile(path.join(__dirname, inputPath), `${outPath}/${path.basename(inputPath)}`);
       })
       .on('error', (error) => {
         console.error(`截取视频 ${inputPath} 的封面时出错`);
-        console.error(error)
+        console.error(error);
       });
   });
 };

@@ -43,7 +43,7 @@ app.use(expressjwt({
     //     return null;
     // }
 }).unless({
-    path: ['/login', '/loadImg', '/video/get', '/video/getCover']  // 指定路径不经过 Token 解析
+    path: ['/login', '/loadImg', '/video/get', '/video/getCover', '/video/result']  // 指定路径不经过 Token 解析
 }));
 
 app.use(function (err, req, res, next) {
