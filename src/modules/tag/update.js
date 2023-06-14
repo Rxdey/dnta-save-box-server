@@ -3,13 +3,14 @@ import select from '../../db/query.js';
 
 const update = async ({ body, auth }, { sendErrorResponse, sendSuccessResponse }) => {
     const { id: uid } = auth;
-    const { id, index, name, desc_txt, color } = body;
+    const { id, index, name, desc_txt, color, nsfw } = body;
     if (!id) return sendErrorResponse({ msg: '参数错误' });
     const sets = {
         index,
         name,
         desc_txt,
         color,
+        nsfw,
         update_date: dateformat()
     };
     try {

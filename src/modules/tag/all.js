@@ -1,15 +1,16 @@
-import { dateformat } from '../../utils/index.js';
+import { dateformat, cleanObj } from '../../utils/index.js';
 import select from '../../db/query.js';
 
 const all = async ({ query, auth }, { sendErrorResponse, sendSuccessResponse }) => {
     const { id: uid } = auth;
+    const { nsfw = 0 } = query;
     try {
+        const where = cleanObj({ uid, nsfw });
+        if (nsfw == 1) delete where.nsfw;
         // 查询用户全部标签
         const record = await select.find({
             database: 'tag',
-            where: {
-                uid
-            },
+            where: where,
         });
         return sendSuccessResponse({ data: record });
     } catch (error) {
