@@ -25,8 +25,8 @@ const getAllFavorite = async ({ query, auth }, { sendErrorResponse, sendSuccessR
                 end
             },
             order: [
-                { type: 'DESC', key: '`sort`'},
-                { type: sort === 'ASC' ? 'ASC' : 'DESC', key: 'create_date' }
+                { type: sort === 'ASC' ? 'ASC' : 'DESC', key: '`sort`' }
+                // { type: 'DESC', key: 'create_date' }
             ]
         });
         return sendSuccessResponse({ data: { list: record, totle, page, pageSize } });

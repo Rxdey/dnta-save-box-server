@@ -75,7 +75,7 @@ const save = async ({ body, auth }, { sendErrorResponse, sendSuccessResponse }) 
             await select.update({
                 database: 'favorite',
                 set: {
-                    sort: count * 200
+                    sort: count * 100
                 },
                 where: {
                     uid,
