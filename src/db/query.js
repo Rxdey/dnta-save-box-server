@@ -99,9 +99,10 @@ select.insert = ({
 select.update = ({
   database = 'tag',
   where = {},
-  set = {}
+  whereIn = null, // in
+  set = {},
+  count = true
 }) => {
-
   const condition = parseWhereObject(where);
 
   const values = Object.keys(set).reduce((prve, current, index, arr) => {
@@ -109,28 +110,42 @@ select.update = ({
     if (index !== arr.length - 1) prve += ', ';
     return prve;
   }, '');
-  const sql = `update ${database} set ${values} where ${condition}`;
+
+  const inStr = whereIn ? `${whereIn.key} in (${whereIn.value.join(',')}) and ` : '';
+
+  const sql = `update ${database} set ${values} where ${inStr}${condition}`;
   console.log(colors.bgMagenta(sql));
 
   return new Promise((resolve, reject) => {
-    select.count({
-      database,
-      where: where
-    }).then(res => {
-      // console.log(res);
-      if (res) {
-        db.query(sql, (error, results, fields) => {
-          if (error) {
-            reject(false);
-            console.log(error);
-            return;
-          }
-          resolve(results.changedRows);
-        });
-      } else {
-        resolve(res);
-      }
-    });
+    if (count) {
+      select.count({
+        database,
+        where: where
+      }).then(res => {
+        // console.log(res);
+        if (res) {
+          db.query(sql, (error, results, fields) => {
+            if (error) {
+              reject(false);
+              console.log(error);
+              return;
+            }
+            resolve(results.changedRows);
+          });
+        } else {
+          resolve(res);
+        }
+      });
+    } else {
+      db.query(sql, (error, results, fields) => {
+        if (error) {
+          reject(false);
+          console.log(error);
+          return;
+        }
+        resolve(results.changedRows);
+      });
+    }
   });
 
 };

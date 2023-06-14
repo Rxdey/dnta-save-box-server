@@ -17,5 +17,6 @@ export const DB_CONFIG = {
     password: 'root',
     // 数据库名
     database: 'dnta',
-    timezone: '08:00'
+    timezone: '08:00',
+    multipleStatements: true
 };
