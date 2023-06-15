@@ -9,7 +9,10 @@ function replaceFileExtension(filePath, newExtension) {
     const newFilePath = filePath.replace(regex, `.${newExtension}`);
     return newFilePath;
   }
-
+/**
+ * 获取本地视频
+ * @returns 
+ */
 const getVideos = async ({ query, auth }, { sendErrorResponse, sendSuccessResponse }) => {
     // const { id: uid } = auth;
     if (query.nsfw != 1) return sendSuccessResponse({ data: [] })

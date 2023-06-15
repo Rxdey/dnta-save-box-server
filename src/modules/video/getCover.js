@@ -5,6 +5,10 @@ import { getAllFile, source, batchExtractVideoCovers, output } from '../../utils
 
 const __dirname = path.resolve();
 
+/**
+ * 获取本地视频封面
+ * @returns 
+ */
 const getCover = async ({ query, auth }, { sendErrorResponse, sendSuccessResponse }) => {
     const dir = path.resolve(__dirname, source);
     const allFile = getAllFile(dir, '', []);
