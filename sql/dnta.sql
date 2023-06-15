@@ -5,13 +5,13 @@
  Source Server Type    : MySQL
  Source Server Version : 50726
  Source Host           : localhost:3306
- Source Schema         : world_pack
+ Source Schema         : dnta
 
  Target Server Type    : MySQL
  Target Server Version : 50726
  File Encoding         : 65001
 
- Date: 05/06/2023 15:42:55
+ Date: 15/06/2023 11:40:17
 */
 
 SET NAMES utf8mb4;
@@ -33,10 +33,12 @@ CREATE TABLE `favorite`  (
   `path` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT '图片本地路径',
   `preview_img` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT '预览图 头图 之类的',
   `is_show` int(1) NOT NULL DEFAULT 1 COMMENT '显示/隐藏',
-  `create_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `update_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `create_date` datetime NOT NULL,
+  `update_date` datetime NOT NULL,
+  `nsfw` int(1) NOT NULL DEFAULT 0,
+  `sort` int(20) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = MyISAM AUTO_INCREMENT = 39 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = MyISAM AUTO_INCREMENT = 31 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for tag
@@ -50,10 +52,11 @@ CREATE TABLE `tag`  (
   `desc` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '描述',
   `color` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '主题色彩',
   `index` int(5) NULL DEFAULT 0 COMMENT '排序',
-  `create_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `update_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `create_date` datetime NOT NULL,
+  `update_date` datetime NOT NULL,
+  `nsfw` int(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = MyISAM AUTO_INCREMENT = 13 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = MyISAM AUTO_INCREMENT = 8 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for user
@@ -67,6 +70,6 @@ CREATE TABLE `user`  (
   `nick_name` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `avatar` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = MyISAM AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = MyISAM AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 SET FOREIGN_KEY_CHECKS = 1;

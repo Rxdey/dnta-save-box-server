@@ -2,7 +2,7 @@
 export const port = 7052;
 
 /** jwt字符串 */
-export const secret = 'worldPackServer';
+export const secret = 'DNTA';
 
 /** db配置 */
 export const DB_CONFIG = {
