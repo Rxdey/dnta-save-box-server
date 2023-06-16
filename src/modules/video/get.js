@@ -1,4 +1,5 @@
 import path from 'path';
+import fs from 'fs';
 import { dateformat } from '../../utils/index.js';
 import { getAllFile, output } from '../../utils/video.js';
 
@@ -17,20 +18,24 @@ const getVideos = async ({ query, auth }, { sendErrorResponse, sendSuccessRespon
     // const { id: uid } = auth;
     if (query.nsfw != 1) return sendSuccessResponse({ data: [] })
     const dir = path.resolve(__dirname, output);
-    const res = getAllFile(dir, '', []).map((item, i) => ({
-        content: item,
-        create_date: dateformat(),
-        id: i,
-        is_show: 1,
-        origin: "http://192.168.101.2:7888",
-        path: output + item,
-        cover: replaceFileExtension(output + item, 'jpg'),
-        preview_img: null,
-        title: item,
-        type: "video",
-        uid: 1,
-        update_date: dateformat(),
-    }));
+    const res = getAllFile(dir, '', []).map((item, i) => {
+        const stats = fs.statSync(path.resolve(__dirname, output + item));
+        return {
+            content: item,
+            create_date: dateformat(),
+            id: i,
+            is_show: 1,
+            origin: "http://192.168.101.2:7888",
+            path: output + item,
+            cover: replaceFileExtension(output + item, 'jpg'),
+            preview_img: null,
+            title: item,
+            type: "video",
+            uid: 1,
+            update_date: dateformat(),
+            created: stats.ctime
+        };
+    }).sort((a, b) => a.created - b.created);
     return sendSuccessResponse({ data: { list: res.reverse() } });
 };
 
