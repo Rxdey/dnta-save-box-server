@@ -2,7 +2,7 @@ import db from './db.js';
 import colors from 'colors';
 const select = {};
 
-const parseWhereObject = (where = {}) => Object.keys(where).reduce((prve, current, index, arr) => {
+export const parseWhereObject = (where = {}) => Object.keys(where).reduce((prve, current, index, arr) => {
   prve += `${current}='${where[current]}' `;
   if (index !== arr.length - 1) prve += 'and ';
   return prve;
@@ -176,6 +176,7 @@ select.querySql = (sql = '') => {
       reject(false);
       return;
     }
+    console.log(colors.bgMagenta(sql));
     db.query(sql, function (err, results) {
       if (err) {
         reject(err);

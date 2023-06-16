@@ -30,7 +30,7 @@ export function getFileNameWithoutExtension(filePath) {
 }
 
 // 遍历文件
-export const getAllFile = (baseDir, currentDir = '', list = []) => {
+export const getAllFile = (baseDir, currentDir = '', list = [], vidoe = true) => {
   if (!baseDir) return;
   if (!currentDir) currentDir = baseDir;
   fs.readdirSync(baseDir).reverse().forEach(file => {
@@ -39,11 +39,11 @@ export const getAllFile = (baseDir, currentDir = '', list = []) => {
     const isFile = fs.statSync(childFile).isFile();
     // 如果是文件夹，递归
     if (!isFile) {
-      getAllFile(childFile, currentDir, list);
+      getAllFile(childFile, currentDir, list, vidoe);
       return;
     }
     // 排除封面
-    if ((/\.jpg$/i.test(file))) return;
+    if ((/\.jpg$/i.test(file)) && vidoe) return;
     const filePath = childFile.replace(currentDir, '').replace(/\\/g, '/');
     // console.log(filePath);
     list.push(filePath);

@@ -71,7 +71,7 @@ const save = async ({ body, auth }, { sendErrorResponse, sendSuccessResponse }) 
                     uid
                 }
             });
-            console.log(count);
+            // console.log(count);
             await select.update({
                 database: 'favorite',
                 set: {
@@ -81,6 +81,7 @@ const save = async ({ body, auth }, { sendErrorResponse, sendSuccessResponse }) 
                     uid,
                     id: res
                 },
+                count: false
             });
             return sendSuccessResponse({ msg: '已添加', data: res });
         } catch (error) {
