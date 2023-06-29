@@ -1,5 +1,8 @@
+import path from 'path';
 import { dateformat, cleanObj } from '../../utils/index.js';
 import select from '../../db/query.js';
+import { thumbnailExtname } from '../../utils/image.js';
+import { IMAGE_PATH, THUMBNAIL_PATH, UPLOAD_PATH, SYSTEM_URL, STATIC_PATH } from '../../conf/index.js';
 
 const getAllFavorite = async ({ query, auth }, { sendErrorResponse, sendSuccessResponse }) => {
     const { id: uid } = auth;
@@ -29,7 +32,23 @@ const getAllFavorite = async ({ query, auth }, { sendErrorResponse, sendSuccessR
                 // { type: 'DESC', key: 'create_date' }
             ]
         });
-        return sendSuccessResponse({ data: { list: record, totle, page, pageSize } });
+        const resList = record.map(item => {
+            if (item.path && item.type === 'img') {
+                const displayUrl = item.path.replace(STATIC_PATH, SYSTEM_URL);
+                let thumbnailUrl = displayUrl;
+                if (thumbnailExtname.includes(path.extname(item.path))) {
+                    const replacePath = item.path.search(UPLOAD_PATH) > -1 ? UPLOAD_PATH : IMAGE_PATH;
+                    thumbnailUrl = item.path.replace(replacePath, THUMBNAIL_PATH).replace(STATIC_PATH, SYSTEM_URL);
+                }
+                return {
+                    ...item,
+                    thumbnailUrl,
+                    displayUrl
+                };
+            }
+            return item;
+        });
+        return sendSuccessResponse({ data: { list: resList, totle, page, pageSize } });
     } catch (error) {
         console.log(error);
         return sendErrorResponse({ msg: '查询失败' });

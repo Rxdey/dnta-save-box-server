@@ -8,6 +8,9 @@ import { expressjwt } from 'express-jwt';
 import routes from './src/router/index.js';
 import { secret, port } from './src/conf/index.js';
 
+// 指定路径不经过 Token 解析
+const excludePaths = ['/login', '/loadImg', '/video/get', '/video/getCover', '/favorite/upload', '/thumbnail'];
+
 const __dirname = path.resolve();
 const app = express();
 
@@ -36,15 +39,7 @@ app.use(express.static(path.join(__dirname, 'download')));
 app.use(expressjwt({
     secret,  // 签名的密钥 或 PublicKey
     algorithms: ['HS256'],
-    // getToken: function fromHeaderOrQuerystring(req) {
-    //     if (req.headers.Authorization && req.headers.Authorization.split(' ')[0] === 'Bearer') {
-    //         return req.headers.token.split(' ')[1];
-    //     }
-    //     return null;
-    // }
-}).unless({
-    path: ['/login', '/loadImg', '/video/get', '/video/getCover', '/favorite/upload']  // 指定路径不经过 Token 解析
-}));
+}).unless({ path: excludePaths }));
 
 app.use(function (err, req, res, next) {
     if (err.name === 'UnauthorizedError') {

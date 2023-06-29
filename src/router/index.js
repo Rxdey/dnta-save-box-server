@@ -3,6 +3,8 @@ import fs from 'fs';
 
 const __dirname = path.resolve();
 
+const excludePaths = ['/loadImg'];
+
 const sendErrorResponse = ({ msg = '请求失败', data, state = 0, success = false, ...reset }) => {
     return { msg, data, state, success, ...reset };
 };
@@ -36,18 +38,9 @@ const routes = (app, baseDir, currentDir = '') => {
             if (typeof fnc.default !== 'function') return;
             app.use(routePath, async (request, response) => {
                 try {
-                    const res = await fnc.default(request, { sendErrorResponse, sendSuccessResponse });
-                    if (routePath === '/loadImg') {
-                        if (!res) {
-                            response.status(500);
-                            response.send({ state: 0, msg: '服务器异常' });
-                            return;
-                        }
-                        response.set({
-                            ...response.headers,
-                            'content-type': 'image/jpeg'
-                        });
-                        response.end(res, 'binary');
+                    const res = await fnc.default(request, { sendErrorResponse, sendSuccessResponse }, response);
+                    // 全部由方法接管
+                    if (excludePaths.includes(routePath)) {
                         return;
                     }
                     if (!res) {

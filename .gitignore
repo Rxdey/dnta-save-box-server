@@ -1,5 +1,14 @@
 node_modules/
 test.json
 groupApi.rar
-download/image/*
-download/**/*
+daemon/**/*
+download/image/**/*
+download/upload/**/*
+download/video/result/**/*
+download/video/source/**/*
+
+!download/image/
+!download/image/thumbnail/
+!download/upload/
+!download/video/result/
+!download/video/source/

@@ -5,11 +5,13 @@ import { dateformat, cleanObj } from '../../utils/index.js';
 import select from '../../db/query.js';
 import md5 from 'md5';
 import tunnel from 'tunnel';
+import { STATIC_PATH, IMAGE_PATH } from '../../conf/index.js';
+import { createThumbnail } from '../../utils/image.js';
 
 const __dirname = path.resolve();
 const downloadImg = async (href = '', origin = '') => {
     if (!href) return;
-    const uploadPath = `./download/image/${dateformat(new Date(), 'YYYY-MM-DD')}/`;
+    const uploadPath = `${IMAGE_PATH}/${dateformat(new Date(), 'YYYY-MM-DD')}/`;
     try {
         const stats = fs.statSync(uploadPath);
         if (!stats || !stats.isDirectory()) {
@@ -34,7 +36,11 @@ const downloadImg = async (href = '', origin = '') => {
     const contentType = headers['content-type'];
     const imgType = contentType.split('/')[1];
     const fileName = `${md5(dateformat())}.${imgType}`;
-    await response.data.pipe(fs.createWriteStream(target_path + '/' + fileName));
+    const writableStream = fs.createWriteStream(target_path + '/' + fileName);
+    response.data.pipe(writableStream);
+    writableStream.on('finish', () => {
+        createThumbnail(uploadPath + fileName);
+    });
     return uploadPath + fileName;
 };
 

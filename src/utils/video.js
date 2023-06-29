@@ -1,33 +1,8 @@
 import ffmpeg from 'fluent-ffmpeg';
 import fs from 'fs';
 import path from 'path';
-// import urlencode from 'urlencode';
-
+import { createDirectoryIfNotExists, moveFile } from './index.js';
 const __dirname = path.resolve();
-
-const ffmpegPath = path.join(__dirname, '../ffmpeg/bin/ffmpeg.exe');
-const ffprobePath = path.join(__dirname, '../ffmpeg/bin/ffprobe.exe');
-
-ffmpeg.setFfmpegPath(ffmpegPath);
-ffmpeg.setFfprobePath(ffprobePath);
-
-export const source = './download/video/source';
-export const output = './download/video/result';
-
-function moveFile(sourcePath, targetPath) {
-  return fs.renameSync(sourcePath, targetPath);
-}
-
-function createDirectoryIfNotExists(directoryPath) {
-  if (!fs.existsSync(directoryPath)) {
-    fs.mkdirSync(directoryPath);
-  }
-}
-// 获取文件名
-export function getFileNameWithoutExtension(filePath) {
-  const { name } = path.parse(filePath);
-  return name;
-}
 
 // 遍历文件
 export const getAllFile = (baseDir, currentDir = '', list = [], vidoe = true) => {
@@ -52,15 +27,14 @@ export const getAllFile = (baseDir, currentDir = '', list = [], vidoe = true) =>
 };
 
 // 批量截取视频封面
-export function batchExtractVideoCovers({
+export async function batchExtractVideoCovers({
   inputPaths, outputDir, time = '0'
 }) {
-  inputPaths.forEach((inputPath, i) => {
-    // const name = getFileNameWithoutExtension(inputPath);
+  for (let i in inputPaths) {
+    const inputPath = inputPaths[i];
     const name = `${new Date().getTime()}_${i}`;
     const outPath = path.resolve(__dirname, `${outputDir}/${name}`);
-    createDirectoryIfNotExists(outPath);
-    // const outputPath = `${outputDir}/cover_${Date.now()}.jpg`;
+    await createDirectoryIfNotExists(outPath);
     const outputPath = path.resolve(__dirname, `${outPath}/${name}.jpg`);
     ffmpeg(path.resolve(__dirname, inputPath))
       .seekInput(time)
@@ -72,12 +46,11 @@ export function batchExtractVideoCovers({
       .on('end', () => {
         console.log(`视频 ${inputPath} 的封面已截取至 ${outputPath}`);
         moveFile(path.join(__dirname, inputPath), `${outPath}/${name}.${inputPath.split('.')[inputPath.split('.').length - 1]}`);
-        // moveFile(path.join(__dirname, inputPath), `${outPath}/${path.basename(inputPath)}`);
       })
       .on('error', (error) => {
         console.error(`截取视频 ${inputPath} 的封面时出错`);
         console.error(error);
       });
-  });
+  }
 };
 
