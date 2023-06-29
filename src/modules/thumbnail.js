@@ -5,6 +5,7 @@ import { createThumbnail, thumbnailExtname } from '../utils/image.js';
 /**
  * 生成全部缩略图
  * query.force 强制生成，覆盖源文件
+ * http://localhost:7052/thumbnail
  * @returns 
  */
 const thumbnail = async ({ query, cookies }, { sendErrorResponse, sendSuccessResponse }) => {
@@ -19,7 +20,7 @@ const thumbnail = async ({ query, cookies }, { sendErrorResponse, sendSuccessRes
         for (const i in tempList) {
             await createThumbnail(tempList[i].path, !!force);
         }
-        return sendSuccessResponse({ data: 1 });
+        return sendSuccessResponse({ data: tempList.length });
     } catch (error) {
         console.log(error);
         return sendErrorResponse({ msg: '查询失败' });

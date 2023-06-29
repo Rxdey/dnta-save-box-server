@@ -13,6 +13,7 @@ function replaceFileExtension(filePath, newExtension) {
   }
 /**
  * 获取本地图片
+ * http://localhost:7052/favorite/upload?name=pic&tid=25&uid=1
  * @returns 
  */
 const upload = async ({ query, auth }, { sendErrorResponse, sendSuccessResponse }) => {
