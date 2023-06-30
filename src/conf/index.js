@@ -1,8 +1,8 @@
 /** 项目端口 */
-export const port = 7052;
+export const port = process.env.SYSTEM_PORT;
 
 /** 项目地址 */
-export const SYSTEM_URL = `http://127.0.0.1:${port}`
+export const SYSTEM_URL = `${process.env.SYSTEM_HOST}:${port}`
 
 /** jwt字符串 */
 export const secret = 'DNTA';

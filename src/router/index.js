@@ -17,7 +17,7 @@ const sendSuccessResponse = ({ msg = '请求成功', data, state = 1, success = 
     return { msg, data, state, success, ...reset };
 };
 
-const routes = (app, baseDir, currentDir = '') => {
+const routes = (app, baseDir, currentDir = '', arr = []) => {
     if (!baseDir || !app) return;
     if (!currentDir) currentDir = baseDir;
     fs.readdirSync(baseDir).reverse().forEach(file => {
@@ -26,14 +26,14 @@ const routes = (app, baseDir, currentDir = '') => {
         const isFile = fs.statSync(childFile).isFile();
         // 如果是文件夹，递归
         if (!isFile) {
-            routes(app, childFile, currentDir);
+            routes(app, childFile, currentDir, arr)
             return;
         }
         // 非js文件不处理
         if (!(/\.js$/i.test(file))) return;
-        // const baseDirReplace = currentDir.replace(__dirname, '');
         const routePath = childFile.replace(currentDir, '').replace(/\.js$/i, '').replace(/\\/g, '/');
-        console.log(routePath);
+        // console.log(routePath);
+        arr.push(routePath);
         import(`file://${childFile}`).then(fnc => {
             if (typeof fnc.default !== 'function') return;
             app.use(routePath, async (request, response) => {
@@ -56,6 +56,7 @@ const routes = (app, baseDir, currentDir = '') => {
             });
         });
     });
+    return arr;
 };
 
 export default routes;
