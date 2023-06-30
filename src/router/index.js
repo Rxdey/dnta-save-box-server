@@ -1,12 +1,14 @@
 import path from 'path';
 import fs from 'fs';
+import colors from 'colors';
 
 const __dirname = path.resolve();
 
 const excludePaths = ['/loadImg'];
 
 const sendErrorResponse = ({ msg = '请求失败', data, state = 0, success = false, ...reset }) => {
-    return { msg, data, state, success, ...reset };
+    const res = { msg, data, state, success, ...reset };
+    return res;
 };
 /**
  * 
@@ -14,7 +16,8 @@ const sendErrorResponse = ({ msg = '请求失败', data, state = 0, success = fa
  * @returns 
  */
 const sendSuccessResponse = ({ msg = '请求成功', data, state = 1, success = true, ...reset }) => {
-    return { msg, data, state, success, ...reset };
+    const res = { msg, data, state, success, ...reset };
+    return res;
 };
 
 const routes = (app, baseDir, currentDir = '', arr = []) => {
@@ -47,6 +50,7 @@ const routes = (app, baseDir, currentDir = '', arr = []) => {
                         response.send({ state: 0, msg: '请求失败' });
                         return;
                     }
+                    console.log(colors.brightRed(routePath), colors.brightCyan(res.msg));
                     response.send(res);
                 } catch (error) {
                     console.log(error);

@@ -2,11 +2,10 @@ import path from 'path';
 import { dateformat, cleanObj } from '../../utils/index.js';
 import select from '../../db/query.js';
 import { thumbnailExtname } from '../../utils/image.js';
-import { IMAGE_PATH, THUMBNAIL_PATH, UPLOAD_PATH, SYSTEM_URL, STATIC_PATH } from '../../conf/index.js';
+import { THUMBNAIL_PATH, SYSTEM_URL, STATIC_PATH, REPLACE_PATH } from '../../conf/index.js';
 
 const getAllFavorite = async ({ query, auth }, { sendErrorResponse, sendSuccessResponse }) => {
     const { id: uid } = auth;
-    console.log(query);
     const { page = 1, pageSize = 50, tid = null, is_show = 1, nsfw = 0, type, sort = 'DESC' } = query;
 
     // 分页查询
@@ -37,7 +36,7 @@ const getAllFavorite = async ({ query, auth }, { sendErrorResponse, sendSuccessR
                 const displayUrl = item.path.replace(STATIC_PATH, SYSTEM_URL);
                 let thumbnailUrl = displayUrl;
                 if (thumbnailExtname.includes(path.extname(item.path))) {
-                    const replacePath = item.path.search(UPLOAD_PATH) > -1 ? UPLOAD_PATH : IMAGE_PATH;
+                    const replacePath = REPLACE_PATH(item.path);
                     thumbnailUrl = item.path.replace(replacePath, THUMBNAIL_PATH).replace(STATIC_PATH, SYSTEM_URL);
                 }
                 return {

@@ -10,7 +10,6 @@ import routes from './src/router/index.js';
 import { secret, port, SYSTEM_URL } from './src/conf/index.js';
 import { routesTable } from './src/utils/index.js';
 
-console.log(colors.red('当前环境: ' + process.env.NODE_ENV));
 // 指定路径不经过 Token 解析
 const excludePaths = ['/login', '/loadImg', '/video/get', '/video/getCover', '/favorite/upload', '/thumbnail'];
 
@@ -58,7 +57,8 @@ const routeList = routes(app, path.join(__dirname, './src/modules'));
 console.table(routesTable(routeList).reverse());
 
 app.server = app.listen(port, () => {
-    console.log(colors.green(`server running @${SYSTEM_URL}`));
+    console.log(colors.bgBrightGreen(`NODE_ENV: ${process.env.NODE_ENV}`))
+    console.log(colors.bgBrightGreen(`server running @${SYSTEM_URL}`));
 });
 
 export default app;

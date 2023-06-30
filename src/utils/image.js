@@ -1,7 +1,7 @@
 import gm from 'gm';
 import path from 'path';
 import fs from 'fs';
-import { IMAGE_PATH, THUMBNAIL_PATH, UPLOAD_PATH } from '../conf/index.js';
+import { IMAGE_PATH, THUMBNAIL_PATH, REPLACE_PATH } from '../conf/index.js';
 import { isExists, createDirectoryIfNotExists } from './index.js';
 
 // 支持缩略图的格式
@@ -52,7 +52,7 @@ export const createThumbnail = async (url = '', force = false) => {
         filePath = errorPath;
     }
     // 目录规划失误，需要判断一下
-    const replacePath = url.search(UPLOAD_PATH) > -1 ? UPLOAD_PATH : IMAGE_PATH;
+    const replacePath = REPLACE_PATH(url);
     const outPath = path.resolve(__dirname, `${THUMBNAIL_PATH}${url.replace(replacePath, '')}`);
     await createDirectoryIfNotExists(path.dirname(outPath));
     const isOut = await isExists(outPath) ;

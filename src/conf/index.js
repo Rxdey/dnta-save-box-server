@@ -31,6 +31,8 @@ export const IMAGE_PATH = `${STATIC_PATH}/image`;
 export const UPLOAD_PATH = `${STATIC_PATH}/upload`;
 export const THUMBNAIL_PATH = `${STATIC_PATH}/image/thumbnail`;
 
+export const REPLACE_PATH = url => url.search(UPLOAD_PATH) > -1 ? UPLOAD_PATH : IMAGE_PATH;
+
 export const VIDEO_PATH = `${STATIC_PATH}/video`;
 export const VIDEO_SOURCE = `${VIDEO_PATH}/source`;
 export const VIDEO_RESULT = `${VIDEO_PATH}/result`;

@@ -1,12 +1,16 @@
 import fs from 'fs';
 import { dateformat, cleanObj } from '../../utils/index.js';
 import select from '../../db/query.js';
+import { REPLACE_PATH, THUMBNAIL_PATH } from '../../conf/index.js';
 
 const delFile = (path = '') => {
     if (!path) return false;
     try {
         console.log(`正在删除：${path}`);
         fs.unlinkSync(path);
+        const thumbnail = path.replace(REPLACE_PATH(path), THUMBNAIL_PATH);
+        console.log(`正在删除：${thumbnail}`);
+        fs.unlinkSync(thumbnail)
         return true;
     } catch (error) {
         console.log(error);
