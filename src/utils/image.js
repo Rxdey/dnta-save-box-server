@@ -40,7 +40,7 @@ const getThumbnailSize = async (filePath = '', w = 400, h = 400) => {
  * 生成缩略图
  * 图片存在则在./download/image/thumbnail下生成同名文件
  */
-export const createThumbnail = async (url = '', force = false) => {
+export const createThumbnail = async (url = '', force = false, outPutPath = '', w = 400, h = 400) => {
     if (!thumbnailExtname.includes(path.extname(url))) {
         console.log('跳过处理: ', url);
         return;
@@ -53,7 +53,7 @@ export const createThumbnail = async (url = '', force = false) => {
     }
     // 目录规划失误，需要判断一下
     const replacePath = REPLACE_PATH(url);
-    const outPath = path.resolve(__dirname, `${THUMBNAIL_PATH}${url.replace(replacePath, '')}`);
+    const outPath = outPutPath ? outPutPath : path.resolve(__dirname, `${THUMBNAIL_PATH}${url.replace(replacePath, '')}`);
     await createDirectoryIfNotExists(path.dirname(outPath));
     const isOut = await isExists(outPath) ;
     if ( isOut && !force) {
@@ -61,13 +61,13 @@ export const createThumbnail = async (url = '', force = false) => {
         return;
     }
     try {
-        const { width, height } = await getThumbnailSize(filePath);
+        const { width, height } = await getThumbnailSize(filePath, w, h);
         gm(filePath).resize(width, height).write(outPath, err => {
             if (err) {
                 console.log(err);
                 return;
             }
-            console.log('缩略图生成成功:', `${THUMBNAIL_PATH}${url.replace(replacePath, '')}`);
+            console.log('缩略图生成成功:', outPath);
         });
     } catch (error) {
         console.error('图片处理失败', error);
