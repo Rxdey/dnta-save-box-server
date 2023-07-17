@@ -2,7 +2,7 @@
 export const port = process.env.SYSTEM_PORT;
 
 /** 项目地址 */
-export const SYSTEM_URL = `${process.env.SYSTEM_HOST}:${port}`
+export const SYSTEM_URL = `${process.env.SYSTEM_HOST}:${port}`;
 
 /** jwt字符串 */
 export const secret = 'DNTA';
@@ -10,16 +10,15 @@ export const secret = 'DNTA';
 /** db配置 */
 export const DB_CONFIG = {
     // 主机名称
-    // host: '45.76.203.52',
-    host: '127.0.0.1',
+    host: process.env.DB_HOST,
     // 端口号
-    port: '3306',
+    port: process.env.DB_PORT,
     // 用户名
-    user: 'root',
+    user: process.env.DB_USER,
     // 密码
-    password: 'root',
+    password: process.env.DB_PASSWORD,
     // 数据库名
-    database: 'dnta',
+    database: process.env.DB_DATABASE,
     timezone: '08:00',
     multipleStatements: true
 };
