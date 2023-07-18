@@ -2,7 +2,8 @@
 export const port = process.env.SYSTEM_PORT;
 
 /** 项目地址 */
-export const SYSTEM_URL = `${process.env.SYSTEM_HOST}:${port}`;
+// export const SYSTEM_URL = `${process.env.SYSTEM_HOST}:${port}`;
+export const SYSTEM_URL = process.env.SYSTEM_URL;
 
 /** jwt字符串 */
 export const secret = 'DNTA';
