@@ -2,6 +2,9 @@
     "apps": {
       "name": "dnta-save-vox-server",
       "script": "app.js",
-      "cwd": "./"
+      "cwd": "./",
+      "env": {
+        "NODE_ENV": "production"
+      }
     }
 }
