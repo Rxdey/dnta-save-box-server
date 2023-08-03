@@ -10,9 +10,6 @@ let svc = new Service({
     "--harmony",
     "--max_old_space_size=4096"
   ],
-  env: {
-    NODE_ENV: 'production' // 设置NODE_ENV环境变量为"production"
-  }
 });
 
 svc.on("install", function () {

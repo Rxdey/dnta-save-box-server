@@ -8,9 +8,6 @@ const delFile = (path = '') => {
     try {
         console.log(`正在删除：${path}`);
         fs.unlinkSync(path);
-        const thumbnail = path.replace(REPLACE_PATH(path), THUMBNAIL_PATH);
-        console.log(`正在删除：${thumbnail}`);
-        fs.unlinkSync(thumbnail)
         return true;
     } catch (error) {
         console.log(error);
@@ -30,6 +27,8 @@ export const deleteFileAndRecord = async (id, uid) => {
     const { type, path } = res[0];
     if (type === 'img' && path) {
         if (!delFile(path)) return false;
+        const thumbnail = path.replace(REPLACE_PATH(path), THUMBNAIL_PATH);
+        delFile(thumbnail);
     }
     // 删除数据
     const record = await select.delete({
@@ -49,7 +48,7 @@ const del = async ({ body, auth }, { sendErrorResponse, sendSuccessResponse }) =
 
     try {
         const record = await deleteFileAndRecord(id, uid);
-        if (!record) return sendErrorResponse({ msg: '删除失败' })
+        if (!record) return sendErrorResponse({ msg: '删除失败' });
         return sendSuccessResponse({ data: { row: record.affectedRows }, msg: '已删除' });
     } catch (error) {
         console.log(error);

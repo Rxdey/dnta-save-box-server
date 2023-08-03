@@ -10,8 +10,9 @@ export const secret = 'DNTA';
 /** db配置 */
 export const DB_CONFIG = {
     // 主机名称
+    host: process.env.DB_HOST,
     // host: '45.76.203.52',
-    host: '127.0.0.1',
+    // host: '127.0.0.1',
     // 端口号
     port: '3306',
     // 用户名
