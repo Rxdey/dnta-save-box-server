@@ -25,13 +25,16 @@ const downloadImg = async (href = '', origin = '') => {
         }
     }
     const target_path = path.resolve(__dirname, uploadPath);
-    const response = await axios.get(href, {
-        // httpAgent: tunnel.httpOverHttp({ proxy: { host: '192.168.101.2', port: '10809' } }),
-        // httpsAgent: tunnel.httpsOverHttp({ proxy: { host: '192.168.101.2', port: '10809' } }),
+    const reqConfig = {
         responseType: 'stream', headers: {
             referer: origin
         }
-    });
+    };
+    if (process.env.ENV === 'local') {
+        reqConfig.httpAgent = tunnel.httpOverHttp({ proxy: { host: process.env.PROXY_HOST, port: process.env.PROXY_PORT } });
+        reqConfig.httpsAgent = tunnel.httpsOverHttp({ proxy: { host: process.env.PROXY_HOST, port: process.env.PROXY_PORT } });
+    }
+    const response = await axios.get(href, reqConfig);
     const headers = response.headers;
     const contentType = headers['content-type'];
     const imgType = contentType.split('/')[1];

@@ -1,0 +1,10 @@
+{
+    "apps": {
+        "name": "dnta-save-vox-server",
+        "script": "app.js",
+        "cwd": "./",
+        "env": {
+            "NODE_ENV": "production"
+        }
+    }
+}
