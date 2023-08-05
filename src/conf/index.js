@@ -27,12 +27,22 @@ export const DB_CONFIG = {
 /** 静态目录 */
 
 export const STATIC_PATH = './download';
+/** 图片保存目录 */
 export const IMAGE_PATH = `${STATIC_PATH}/image`;
+/** 本地图片引入目录 */
 export const UPLOAD_PATH = `${STATIC_PATH}/upload`;
+/** 缩略图目录 */
 export const THUMBNAIL_PATH = `${STATIC_PATH}/image/thumbnail`;
+/** 上传图片目录 */
+export const UPLOAD_IMAGE_PATH = `${STATIC_PATH}/image/upload`;
 
+
+/** 因目录规划错误部分需替换 */
 export const REPLACE_PATH = url => url.search(UPLOAD_PATH) > -1 ? UPLOAD_PATH : IMAGE_PATH;
 
+/** 视频目录 */
 export const VIDEO_PATH = `${STATIC_PATH}/video`;
+/** 视频源目录 */
 export const VIDEO_SOURCE = `${VIDEO_PATH}/source`;
+/** 视频缩略图及移动后目录 */
 export const VIDEO_RESULT = `${VIDEO_PATH}/result`;

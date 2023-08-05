@@ -38,6 +38,12 @@ const routes = (app, baseDir, currentDir = '', arr = []) => {
         // console.log(routePath);
         arr.push(routePath);
         import(`file://${childFile}`).then(fnc => {
+            if (typeof fnc.default === 'object') {
+                if (fnc.default.type === 'ignore') {
+                    fnc.default.fnc({ app, sendErrorResponse, sendSuccessResponse });
+                    return;
+                }
+            }
             if (typeof fnc.default !== 'function') return;
             app.use(routePath, async (request, response) => {
                 try {
