@@ -3,7 +3,7 @@ import multer from 'multer';
 import { dateformat } from '../../utils/index.js';
 import { createThumbnail } from '../../utils/image.js';
 import select from '../../db/query.js';
-import { UPLOAD_IMAGE_PATH, THUMBNAIL_PATH } from '../../conf/index.js';
+import { VIDEO_TEMP_PATH } from '../../conf/index.js';
 
 const __dirname = path.resolve();
 
@@ -13,7 +13,7 @@ function getEx(filePath) {
 
 const storage = multer.diskStorage({
     destination(req, file, cb) {
-        cb(null, path.resolve(UPLOAD_IMAGE_PATH));
+        cb(null, path.resolve(VIDEO_TEMP_PATH));
     },
     filename(req, file, cb) {
         cb(null, Date.now() + '.' + getEx(file.originalname));
@@ -27,55 +27,8 @@ const upload = multer({ storage });
  * @returns 
  */
 const video2gif = ({ app, sendErrorResponse, sendSuccessResponse }) => {
-
-    app.post('/favorite/uploadImage', upload.single('file'), async (req, res) => {
-        const { id: uid } = req.auth;
-        if (!uid) {
-            res.send(sendErrorResponse({ msg: '参数错误' }));
-            return;
-        }
-        const url = `${UPLOAD_IMAGE_PATH}/${req.file.filename}`;
-        const setData = {
-            uid,
-            tid: 0,
-            type: 'img',
-            content: url,
-            origin: 'http://localhost',
-            title: url,
-            path: url,
-            create_date: dateformat(),
-            update_date: dateformat()
-        };
-        try {
-            console.log(req.file);
-            createThumbnail(req.file.path, false, `${path.resolve(THUMBNAIL_PATH)}/upload/${req.file.filename}`);
-
-            const insertId = await select.insert({
-                database: 'favorite',
-                set: setData
-            });
-            const count = await select.count({
-                field: 'id',
-                database: 'favorite',
-                where: {
-                    uid
-                }
-            });
-            await select.update({
-                database: 'favorite',
-                set: {
-                    sort: count * 100
-                },
-                where: {
-                    uid,
-                    id: insertId
-                },
-                count: false
-            });
-            res.send(sendSuccessResponse({ msg: '上传成功' }));
-        } catch (error) {
-            res.send(sendErrorResponse({ msg: '上传失败' }));
-        }
+    app.post('/video/video2gif', upload.single('file'), async (req, res) => {
+        console.log(req.file);
     });
 };
 export default {
