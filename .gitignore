@@ -8,7 +8,11 @@ download/video/result/**/*
 download/video/source/**/*
 
 !download/image/
+!download/TEMP/.gitkeep
+!download/image/thumbnail/.gitkeep
 !download/image/thumbnail/
-!download/upload/
-!download/video/result/
-!download/video/source/
+!download/image/upload/.gitkeep
+!download/image/upload/
+!download/upload/.gitkeep
+!download/video/result/.gitkeep
+!download/video/source/.gitkeep

@@ -46,3 +46,5 @@ export const VIDEO_PATH = `${STATIC_PATH}/video`;
 export const VIDEO_SOURCE = `${VIDEO_PATH}/source`;
 /** 视频缩略图及移动后目录 */
 export const VIDEO_RESULT = `${VIDEO_PATH}/result`;
+/** 视频临时目录 */
+export const VIDEO_TEMP_PATH =`${STATIC_PATH}/TEMP`

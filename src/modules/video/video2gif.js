@@ -23,10 +23,10 @@ const upload = multer({ storage });
 
 
 /**
- * 获取本地图片
+ * 视频转gif
  * @returns 
  */
-const uploadImage = ({ app, sendErrorResponse, sendSuccessResponse }) => {
+const video2gif = ({ app, sendErrorResponse, sendSuccessResponse }) => {
 
     app.post('/favorite/uploadImage', upload.single('file'), async (req, res) => {
         const { id: uid } = req.auth;
@@ -78,13 +78,7 @@ const uploadImage = ({ app, sendErrorResponse, sendSuccessResponse }) => {
         }
     });
 };
-/**
- * const { id: uid } = auth;
-    if (!uid) return sendErrorResponse({ msg: '参数错误' });
-
-    return sendSuccessResponse({ data: 1 });
- */
 export default {
     type: 'ignore',
-    fnc: uploadImage
+    fnc: video2gif
 };
