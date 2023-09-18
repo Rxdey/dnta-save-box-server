@@ -19,6 +19,7 @@ export const getAllFile = (baseDir, currentDir = '', list = [], vidoe = true) =>
     }
     // 排除封面
     if ((/\.jpg$/i.test(file)) && vidoe) return;
+    if ((/\.gitkeep$/i.test(file)) && vidoe) return;
     const filePath = childFile.replace(currentDir, '').replace(/\\/g, '/');
     // console.log(filePath);
     list.push(filePath);
